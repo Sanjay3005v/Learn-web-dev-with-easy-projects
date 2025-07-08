@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To-Do List</title>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        width: 90%;
+        max-width: 400px;
+        margin: auto;
+        text-align: center;
+        background-color: #121212;
+        color: white;
+        padding: 20px;
+    }
+
+    input, button {
+        margin: 5px 0;
+        padding: 10px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+    }
+
+    input:focus, button:focus {
+        outline: 2px solid #fff;
+        outline-offset: 2px;
+    }
+
+    input {
+        width: 80%;
+    }
+
+    button.add-task {
+        background-color: #28a745;
+        color: white;
+        cursor: pointer;
+        margin-left: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    button.add-task:hover {
+        background-color: #218838;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin-top: 20px;
+    }
+
+    li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 10px 0;
+        padding: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 5px;
+    }
+
+    li span {
+        flex-grow: 1;
+        text-align: left;
+        padding-right: 10px;
+        word-break: break-word;
+    }
+
+    li button {
+        background-color: #007bff;
+        color: white;
+        margin-left: 5px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    li button:hover {
+        background-color: #0056b3;
+    }
+
+    li button:nth-child(3) {
+        background-color: #dc3545;
+    }
+
+    li button:nth-child(3):hover {
+        background-color: #c82333;
+    }
+    </style>
+</head>
+<body>
+    
+    <h2>To-Do List</h2>
+    <input type="text" id="taskInput" placeholder="Enter a task">
+    <button class="add-task" onclick="addTask()">Add Task</button>
+    <ul id="taskList"></ul>
+
+    <script src="script.js"></script>
+</body>
+</html>

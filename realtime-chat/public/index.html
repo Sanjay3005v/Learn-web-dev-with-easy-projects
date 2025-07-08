@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Futuristic Chat</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="users">
+      <h2>🟢 Online</h2>
+      <ul id="userList"></ul>
+    </div>
+    <div class="chat">
+      <h1>
+        Chat - <span id="displayName"></span>
+        <button onclick="editName()">✏️</button>
+      </h1>
+      <ul id="messages"></ul>
+      <div class="input-area">
+        <input id="messageInput" placeholder="Type your message..." />
+        <button id="sendBtn">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const socket = io();
+    let username = "";
+
+    window.onload = () => {
+      username = prompt("Enter your name:") || "Anonymous";
+      document.getElementById("displayName").textContent = username;
+      socket.emit("new user", username);
+    };
+
+    function editName() {
+      const newName = prompt("Enter new name:", username);
+      if (newName && newName !== username) {
+        username = newName;
+        document.getElementById("displayName").textContent = newName;
+        socket.emit("edit name", newName);
+      }
+    }
+
+    function sendMessage() {
+      const input = document.getElementById("messageInput");
+      const text = input.value.trim();
+      if (text) {
+        socket.emit("chat message", { text });
+        input.value = "";
+      }
+    }
+
+    document.getElementById("sendBtn").addEventListener("click", sendMessage);
+    document.getElementById("messageInput").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    socket.on("chat message", ({ id, username, text }) => {
+      const li = document.createElement("li");
+      li.setAttribute("data-id", id);
+      if (id === socket.id) li.classList.add("self");
+      li.innerHTML = `<strong class="username">${username}:</strong> ${text}`;
+      document.getElementById("messages").appendChild(li);
+      li.scrollIntoView({ behavior: "smooth" });
+    });
+
+    socket.on("system message", (msg) => {
+      const li = document.createElement("li");
+      li.classList.add("system");
+      li.textContent = msg;
+      document.getElementById("messages").appendChild(li);
+    });
+
+    socket.on("user list", (users) => {
+      const list = document.getElementById("userList");
+      list.innerHTML = "";
+      Object.values(users).forEach(name => {
+        const li = document.createElement("li");
+        li.textContent = name;
+        list.appendChild(li);
+      });
+    });
+
+    socket.on("update name", ({ id, newName }) => {
+      const messages = document.querySelectorAll(`#messages li[data-id="${id}"] .username`);
+      messages.forEach(el => {
+        el.textContent = `${newName}:`;
+      });
+    });
+  </script>
+</body>
+</html>
