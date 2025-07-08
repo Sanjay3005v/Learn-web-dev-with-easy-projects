@@ -1,0 +1,33 @@
+body {
+    background-color: #121212;
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.clock {
+    background-color: #1e1e1e;
+    padding: 30px 50px;
+    border-radius: 15px;
+    box-shadow: 0 0 25px rgba(0, 183, 255, 0.3);
+    font-size: 64px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.clock span {
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: transform 0.2s ease-in-out, color 0.2s;
+}
+
+span.change {
+    transform: scale(1.01);
+    color: #00e5ff;
+}
