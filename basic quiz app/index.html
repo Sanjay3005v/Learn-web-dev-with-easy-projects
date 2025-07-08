@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Quiz App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #121212;
+      color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    #quiz-container {
+      width: 50%;
+      margin: 50px auto;
+      padding: 20px;
+      border: 1px solid #333;
+      border-radius: 10px;
+      background-color: #1e1e1e;
+      box-shadow: 0 0 15px rgba(0, 123, 255, 0.3);
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    #next-btn {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 5px;
+      background-color: #28a745;
+    }
+
+    #next-btn:hover {
+      background-color: #1f7a35;
+    }
+  </style>
+</head>
+<body>
+  <div id="quiz-container">
+    <h1>Quiz App</h1>
+    <h2 id="question">Question here</h2>
+    <div id="answer-buttons"></div>
+    <button id="next-btn" class="btn" style="display: none;">Next Question</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+ 
