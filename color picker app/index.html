@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Color Picker</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+      transition: background-color 0.5s ease;
+      background-color: #ffffff;
+    }
+
+    .container {
+      margin-top: 49px;
+    }
+
+    input[type="color"],
+    input[type="text"] {
+      padding: 11px;
+      font-size: 15px;
+      margin: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    p {
+      font-size: 16px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Color Picker</h1>
+    <input type="color" id="colorPicker" />
+    <input type="text" id="colorInput" placeholder="Enter color name or hex code" />
+    <p>Choose a color to change the background</p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
