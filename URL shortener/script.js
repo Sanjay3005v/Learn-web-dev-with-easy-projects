@@ -46,7 +46,7 @@ function copyToClipboard() {
     }
 
     shortUrlInput.select();
-    shortUrlInput.setSelectionRange(0, 99999); // For mobile
+    shortUrlInput.setSelectionRange(0, 99999); 
     document.execCommand("copy");
 
     alert("Shortened URL copied to clipboard!");
