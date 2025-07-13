@@ -8,7 +8,7 @@ const io = new Server(server);
 
 app.use(express.static("public"));
 
-const users = {}; // socket.id => username
+const users = {}; 
 
 io.on("connection", (socket) => {
   console.log("✅ User connected:", socket.id);
