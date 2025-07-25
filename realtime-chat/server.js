@@ -8,15 +8,17 @@ const io = new Server(server);
 
 app.use(express.static("public"));
 
-const users = {}; 
+const users = {}; // { socketId: username }
+// { messageId: { reactionType: Set(userId) } }
+const messageReactions = {};
 
 io.on("connection", (socket) => {
   console.log("✅ User connected:", socket.id);
 
-  socket.on("new user", (username) => {
+  socket.on("new user", ({ username }) => {
     users[socket.id] = username;
     io.emit("system message", `🟢 ${username} joined`);
-    io.emit("user list", users);
+    io.emit("user list", Object.values(users));
   });
 
   socket.on("chat message", (msg) => {
@@ -26,23 +28,61 @@ io.on("connection", (socket) => {
       id: socket.id,
       username,
       text: msg.text,
+      time: new Date().toISOString(),
     });
   });
 
-  socket.on("edit name", (newName) => {
+  // Reaction event
+  socket.on("reaction", ({ messageId, reaction, remove }) => {
+    if (!messageId || !reaction) return;
+    if (!messageReactions[messageId]) messageReactions[messageId] = {};
+    if (remove) {
+      // Remove this user's reaction for this emoji
+      if (messageReactions[messageId][reaction]) {
+        messageReactions[messageId][reaction].delete(socket.id);
+      }
+    } else {
+      // Remove this user's previous reaction for this message
+      for (const r in messageReactions[messageId]) {
+        messageReactions[messageId][r].delete(socket.id);
+      }
+      // Add this user's new reaction
+      if (!messageReactions[messageId][reaction]) messageReactions[messageId][reaction] = new Set();
+      messageReactions[messageId][reaction].add(socket.id);
+    }
+    // Prepare plain object for emit
+    const reactionCounts = {};
+    for (const r in messageReactions[messageId]) {
+      reactionCounts[r] = Array.from(messageReactions[messageId][r]);
+    }
+    io.emit("reaction update", { messageId, reactions: reactionCounts });
+  });
+
+  socket.on("edit name", ({ username: newName }) => {
     if (!newName || typeof newName !== "string") return;
     const oldName = users[socket.id] || "Anonymous";
     users[socket.id] = newName.trim();
     io.emit("system message", `✏️ ${oldName} is now ${newName}`);
     io.emit("update name", { id: socket.id, newName });
-    io.emit("user list", users);
+    io.emit("user list", Object.values(users));
+  });
+
+  // Typing indicator events
+  socket.on("typing", () => {
+    const user = users[socket.id];
+    if (!user) return;
+    const username = user || "Someone";
+    socket.broadcast.emit("typing", { username });
+  });
+  socket.on("stop typing", () => {
+    socket.broadcast.emit("stop typing");
   });
 
   socket.on("disconnect", () => {
     const user = users[socket.id] || "Unknown";
     delete users[socket.id];
     io.emit("system message", `❌ ${user} left`);
-    io.emit("user list", users);
+    io.emit("user list", Object.values(users));
   });
 });
 
