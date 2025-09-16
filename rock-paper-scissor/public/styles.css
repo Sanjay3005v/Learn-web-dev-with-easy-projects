@@ -22,8 +22,8 @@ h1 {
     display: inline-block;
 }
 
-.choice {
-    font-size: 60px;
+.choices {
+    font-size: 50px;
     margin: 0 20px;
     padding: 20px;
     border: 2px solid #ffffff22;
@@ -34,7 +34,7 @@ h1 {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.choice:hover {
+.choices:hover {
     transform: scale(1.25);
     box-shadow: 0 0 20px #ffcc70;
 }
@@ -45,7 +45,6 @@ h1 {
     padding: 10px;
     background-color: rgba(0, 0, 0, 0.3);
     border-radius: 8px;
-    display: inline-block;
     min-width: 300px;
 }
 
